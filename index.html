@@ -9,7 +9,7 @@
       href="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg"
       type="image/x-icon"
     />
-    <title>Lista 1</title>
+    <title>Lista 3</title>
   </head>
   <body>
     <header>
@@ -24,71 +24,31 @@
       <h2>Implementação em C#</h2>
       <pre><code>
             using System;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Collections.Generic;
 
-class InterpolacaoLagrange : Form
+class InterpolacaoLagrange
 {
+    // Dados da tabela
     static double[] x = { 0, 0.5, 1, 1.5, 2, 2.5, 3 };
     static double[] y = { 1.8421, 2.4694, 2.4921, 1.9047, 0.8509, -0.4112, -1.5727 };
 
-    [STAThread]
     static void Main()
     {
-        Application.Run(new InterpolacaoLagrange());
-    }
-
-    public InterpolacaoLagrange()
-    {
-        this.Text = "Interpolação de Lagrange - Raiz";
-        this.Width = 800;
-        this.Height = 600;
-
-        var chart = new Chart();
-        chart.Dock = DockStyle.Fill;
-        this.Controls.Add(chart);
-
-        var chartArea = new ChartArea();
-        chart.ChartAreas.Add(chartArea);
-
-        var series = new Series
-        {
-            ChartType = SeriesChartType.Line,
-            BorderWidth = 2,
-            Color = System.Drawing.Color.Blue
-        };
-
-        // (a) Interpolação com 3 pontos: x = 1.5, 2, 2.5
-        double[] x3 = { 1.5, 2, 2.5 };
+        // (a) 3 pontos consecutivos: 1.5, 2.0, 2.5
+        double[] x3 = { 1.5, 2.0, 2.5 };
         double[] y3 = { 1.9047, 0.8509, -0.4112 };
 
-        // Plotar o polinômio de Lagrange com 3 pontos
-        for (double xi = 1.5; xi <= 2.5; xi += 0.01)
-        {
-            series.Points.AddXY(xi, Lagrange(x3, y3, xi));
-        }
+        double raiz3 = EncontrarRaiz(x3, y3, 1.5, 2.5, 1e-6);
+        Console.WriteLine("(a) Raiz com 3 pontos: x ≈ {0:F6}, y ≈ {1:F6}", raiz3, Lagrange(x3, y3, raiz3));
 
-        chart.Series.Add(series);
+        // (b) 4 pontos consecutivos: 1.5, 2.0, 2.5, 3.0
+        double[] x4 = { 1.5, 2.0, 2.5, 3.0 };
+        double[] y4 = { 1.9047, 0.8509, -0.4112, -1.5727 };
 
-        var pontos = new Series
-        {
-            ChartType = SeriesChartType.Point,
-            MarkerSize = 7,
-            MarkerStyle = MarkerStyle.Circle,
-            Color = System.Drawing.Color.Red
-        };
-
-        for (int i = 0; i < x.Length; i++)
-            pontos.Points.AddXY(x[i], y[i]);
-
-        chart.Series.Add(pontos);
-
-        // Buscar raiz usando interpolação de 3 pontos
-        double raiz = EncontrarRaiz(x3, y3, 1.5, 2.5, 1e-5);
-        MessageBox.Show($"Raiz estimada (3 pontos): x ≈ {raiz:F5}\n y(x) ≈ {Lagrange(x3, y3, raiz):F5}");
+        double raiz4 = EncontrarRaiz(x4, y4, 1.5, 2.5, 1e-6);
+        Console.WriteLine("(b) Raiz com 4 pontos: x ≈ {0:F6}, y ≈ {1:F6}", raiz4, Lagrange(x4, y4, raiz4));
     }
 
+    // Método de interpolação de Lagrange
     static double Lagrange(double[] x, double[] y, double xi)
     {
         double sum = 0;
@@ -105,6 +65,7 @@ class InterpolacaoLagrange : Form
         return sum;
     }
 
+    // Método da bisseção para encontrar raiz do polinômio de Lagrange
     static double EncontrarRaiz(double[] x, double[] y, double a, double b, double tol)
     {
         double fa = Lagrange(x, y, a);
@@ -131,25 +92,16 @@ class InterpolacaoLagrange : Form
         return (a + b) / 2;
     }
 }
+
         
         </code></pre>
       <pre>
         Saída:
-            Resolvendo pelo Método de Cramer:
-                x1 = 1,00
-                x2 = -1,00
-                x3 = 3,00
+(a) Raiz com 3 pontos: x ? 2.345894, y ? 0.000000
+(b) Raiz com 4 pontos: x ? 2.338638, y ? 0.000001
 
-                Resolvendo pela Eliminação de Gauss:
-                x1 = 1,00
-                x2 = -1,00
-                x3 = 3,00
-
-                Resolvendo pela Decomposição LU:
-                x1 = 1,00
-                x2 = -1,00
-                x3 = 3,00
         </pre
       >
+  <img src="https://drive.google.com/file/d/1sPj_zhw7rQsrcQoWwaJBGCrUkzrs4pmp/view">
     </section>
             </body>
