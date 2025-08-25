@@ -2,6 +2,7 @@
 
 This project is a **technical documentation page** designed to provide an organized and comprehensive introduction to **HTML5**, its features, and its capabilities.  
 The page is built with **HTML and CSS** to create a clear, navigable, and responsive layout suitable for learning and reference purposes.
+This project is part of the **Responsive Web Design Certification** from [freeCodeCamp](https://www.freecodecamp.org/). 
 
 ---
 
